@@ -1,0 +1,15 @@
+{
+  "name": "sample_github1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:satoruk/sample_github.git",
+  "author": "satoruk <koyanagi3106@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "2.2.1"
+  }
+}
