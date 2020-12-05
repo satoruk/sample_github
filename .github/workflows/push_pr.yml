@@ -1,0 +1,23 @@
+name: "Push|PR"
+# Push&PR のを併用する場合
+
+on:
+  push:
+  pull_request:
+    types:
+      - opened
+      - reopened
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: job1/step1
+        run: echo 'job1/step1'
+  job2:
+    name: job2
+    runs-on: ubuntu-latest
+    needs:
+      - job1
+    steps:
+      - name: job2/step1
+        run: echo 'job2/step1'
