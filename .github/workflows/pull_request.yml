@@ -1,0 +1,12 @@
+name: "PR"
+
+on:
+  pull_request:
+    # paths:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: job1/step1
+        run: echo 'job1/step1'
