@@ -1,10 +1,11 @@
-name: "Task Completed Checker"
+name: "PR Tasks"
 on:
   pull_request:
     types: [opened, edited]
 
 jobs:
   task-check:
+    name: Task Completed Checker
     runs-on: ubuntu-latest
     steps:
       - uses: kentaro-m/task-completed-checker-action@v0.1.0
