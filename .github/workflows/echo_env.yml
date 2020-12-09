@@ -1,13 +1,8 @@
-name: pull_request labeled
+name: echo env
 
 on:
   # push:
   pull_request:
-    branches:
-      - "*"
-    types:
-      - labeled
-      - synchronize
 
 jobs:
   job1:
