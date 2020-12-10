@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: check if prs are dirty
-        uses: eps1lon/actions-label-merge-conflict@releases/v2.0.0
+        uses: eps1lon/actions-label-merge-conflict@v2.0.0
         with:
           dirtyLabel: "has conflicts"
           # removeOnDirtyLabel: "PR: ready to ship"
