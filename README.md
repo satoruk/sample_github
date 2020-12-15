@@ -1,3 +1,5 @@
+## Sample
+
 ### Issue templates
 
 - [Configuring issue templates for your repository - GitHub Docs]
