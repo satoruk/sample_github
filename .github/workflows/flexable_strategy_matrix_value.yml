@@ -1,0 +1,18 @@
+on:
+  push:
+
+env:
+  NODE_VERSION: 12.16.3
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [12.16.3]
+        os: [ubuntu-latest]
+
+    steps:
+      - run: echo "hello world"
