@@ -3,8 +3,15 @@ name: pull_request labeled
 on:
   # push:
   pull_request:
+<<<<<<< HEAD
+    types: [labeled]
+=======
+    branches:
+      - "*"
     types:
       - labeled
+      - synchronize
+>>>>>>> e40744d... ci: add echo_env workflow
 
 jobs:
   job1:
