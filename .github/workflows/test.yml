@@ -4,11 +4,61 @@ on:
   pull_request:
 
 jobs:
+  current_pr:
+    name: Current PR
+    outputs:
+      labels: ${{ steps.current_labels.outputs.result }}
+      labeled_bug: |-
+        ${{
+          github.event_name == 'pull_request' &&
+          contains(fromJSON(steps.current_labels.outputs.result).*.name, 'bug')
+        }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # PR 作成時は少し待ってラベルを取得
+      - name: waiting
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        run: sleep 1
+      - name: get current labels
+        id: current_labels
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          result-encoding: json
+          script: |
+            const pr_url = context.payload.pull_request._links.self.href
+            const result = await github.request(pr_url)
+            return result.data.labels
+      - name: show current labels
+        if: github.event_name == 'pull_request'
+        run: |
+          cat <<EOD
+            ${{ steps.current_labels.outputs.result }}
+          EOD
+
   test:
     name: Test
+    needs: prepere
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: sample
-        run: |-
+      - name: log
+        run: |
           echo "Hello"
           date
+          echo 'labeled_bug: ${{ toJson(needs.current_pr.outputs.labeled_bug) }}'
+
+      - name: dump event
+        run: |
+          mkdir -p artifacts
+          cat <<EOD > artifacts/event_${{ github.event_name }}_${{ github.event.action }}.json
+            ${{ toJSON(github.event) }}
+          EOD
+        if: always()
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: artifacts/
+        if: always()
