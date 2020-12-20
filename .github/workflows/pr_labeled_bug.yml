@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       (
-        github.event_name == "pull_request" &&
+        github.event_name == 'pull_request' &&
         github.event.action == 'labeled' &&
-        github.event.label.name == "bug" &&
-        github.event.pull_request.state == "open"
+        github.event.label.name == 'bug' &&
+        github.event.pull_request.state == 'open'
       )
     steps:
       - run: echo "labeled bug"
