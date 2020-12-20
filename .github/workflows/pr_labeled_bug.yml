@@ -1,0 +1,19 @@
+name: pull_request labeled bug
+
+on:
+  pull_request:
+    types:
+      - labeled
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    if: |
+      (
+        github.event_name == "pull_request" &&
+        github.event.action == 'labeled' &&
+        github.event.label.name == "bug" &&
+        github.event.pull_request.state == "open"
+      )
+    steps:
+      - run: echo "labeled bug"
