@@ -6,12 +6,15 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
-    if: |
-      (
-        github.event_name == 'pull_request' &&
-        github.event.action == 'synchronize' &&
-        github.event.pull_request.state == 'open' &&
-        contains(github.event.pull_request.labels.*.name, 'bug')
-      )
     steps:
+      - name: github.event.pull_request.labels
+        run: |
+          echo "${{ toJSON(github.event.pull_request.labels) }}"
       - run: echo "labeled bug"
+        if: |
+          (
+            github.event_name == 'pull_request' &&
+            github.event.action == 'synchronize' &&
+            github.event.pull_request.state == 'open' &&
+            contains(github.event.pull_request.labels.*.name, 'bug')
+          )
