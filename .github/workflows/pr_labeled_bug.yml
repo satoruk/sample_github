@@ -3,10 +3,7 @@ name: pull_request labeled bug
 on:
   pull_request:
     types:
-      - opened
-      - ready_for_review
-      - reopened
-      - synchronize
+      - labeled
 
 jobs:
   job1:
@@ -37,7 +34,6 @@ jobs:
         if: |
           (
             github.event_name == 'pull_request' &&
-            github.event.pull_request.draft == false &&
             github.event.pull_request.state == 'open' &&
             contains(github.event.pull_request.labels.*.name, 'bug')
           )
