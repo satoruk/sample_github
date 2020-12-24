@@ -23,11 +23,15 @@ jobs:
           echo '-- github.event.pull_request.draft --------------------'
           echo '${{ toJSON(github.event.pull_request.draft) }}'
           echo '-- github.event.pull_request.labels -------------------'
-          echo '${{ toJSON(github.event.pull_request.labels) }}'
+          cat <<EOD
+            ${{ toJSON(github.event.pull_request.labels) }}
+          EOD
       - name: log context
         run: |
           echo '-- github.event.pull_request -------------------'
-          echo '${{ toJSON(github.event.pull_request) }}'
+          cat <<EOD
+            ${{ toJSON(github.event.pull_request) }}
+          EOD
         if: always()
       - run: echo "labeled bug"
         if: |
