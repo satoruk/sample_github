@@ -36,7 +36,7 @@ jobs:
       - name: log context2
         run: |
           mkdir -p artifacts
-          cat <<EOD > artifacts/event.json
+          cat <<EOD > artifacts/event_${{ github.event_name }}_${{ github.event.action }}.json
             ${{ toJSON(github.event) }}
           EOD
         if: always()
