@@ -33,6 +33,13 @@ jobs:
             ${{ toJSON(github.event.pull_request) }}
           EOD
         if: always()
+      - name: log context2
+        run: |
+          mkdir -p artifacts
+          cat <<EOD > artifacts/event.json
+            ${{ toJSON(github.event) }}
+          EOD
+        if: always()
       - run: echo "labeled bug"
         if: |
           (
@@ -40,3 +47,8 @@ jobs:
             github.event.pull_request.state == 'open' &&
             contains(github.event.pull_request.labels.*.name, 'bug')
           )
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: artifacts/
+        if: always()
