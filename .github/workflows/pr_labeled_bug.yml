@@ -14,14 +14,16 @@ jobs:
     steps:
       - name: log
         run: |
-          echo "github.event_name"
+          echo "-- github.event_name ----------------------------------"
           echo "${{ toJSON(github.event_name) }}"
-          echo "github.event.action"
+          echo "-- github.event.action --------------------------------"
           echo "${{ toJSON(github.event.action) }}"
-          echo "github.event.pull_request.state"
+          echo "-- github.event.pull_request.state --------------------"
           echo "${{ toJSON(github.event.pull_request.state) }}"
-          echo "github.event.pull_request.draft"
+          echo "-- github.event.pull_request.draft --------------------"
           echo "${{ toJSON(github.event.pull_request.draft) }}"
+          echo "-- github.event.pull_request.labels -------------------"
+          echo "${{ toJSON(github.event.pull_request.labels) }}"
       - run: echo "labeled bug"
         if: |
           (
