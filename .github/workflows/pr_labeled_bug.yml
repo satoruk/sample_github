@@ -20,7 +20,7 @@ jobs:
         !contains(github.event.pull_request.labels.*.name, 'WIP')
       )
     env:
-      SKIP: |
+      SKIP: |-
         ${{
           (
             github.event_name == 'pull_request' &&
@@ -31,9 +31,9 @@ jobs:
     steps:
       - run: echo "'${SKIP}'"
       - run: echo "skip"
-        if: env.SKIP == true
+        if: env.SKIP == 'true'
       - run: echo "the skip label not exists"
-        if: env.SKIP != true
+        if: env.SKIP != 'true'
   job1:
     runs-on: ubuntu-latest
     steps:
