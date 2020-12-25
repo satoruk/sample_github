@@ -19,28 +19,19 @@ jobs:
         github.event.pull_request.state == 'open' &&
         !contains(github.event.pull_request.labels.*.name, 'WIP')
       )
+    env:
+      SKIP: |
+        (
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.state == 'open' &&
+          contains(github.event.pull_request.labels.*.name, 'skip')
+        )
     steps:
-      - uses: actions/checkout@v2
+      - run: echo "'${SKIP}'"
       - run: echo "skip"
-        if: |
-          (
-            contains(github.event.pull_request.labels.*.name, 'skip')
-          )
+        if: env.SKIP == true
       - run: echo "the skip label not exists"
-      - id: foo
-        uses: ./.github/actions/hello/
-        with:
-          who-to-greet: "Mona the Octocat"
-        if: |
-          (
-            !contains(github.event.pull_request.labels.*.name, 'skip')
-          )
-      - run: echo random-number ${{ steps.foo.outputs.random-number }}
-        shell: bash
-        if: |
-          (
-            !contains(github.event.pull_request.labels.*.name, 'skip')
-          )
+        if: env.SKIP != true
   job1:
     runs-on: ubuntu-latest
     steps:
