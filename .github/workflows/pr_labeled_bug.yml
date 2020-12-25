@@ -6,8 +6,24 @@ on:
       - opened
       - ready_for_review
       - reopened
+      - synchronize
 
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    if: |
+      (
+        github.event_name == 'pull_request' &&
+        github.event.pull_request.state == 'open' &&
+        !contains(github.event.pull_request.labels.*.name, 'WIP')
+      )
+    steps:
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: artifacts/
+        if: always()
+      - run: echo "labeled bug"
   job1:
     runs-on: ubuntu-latest
     steps:
