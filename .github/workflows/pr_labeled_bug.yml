@@ -21,11 +21,13 @@ jobs:
       )
     env:
       SKIP: |
-        (
-          github.event_name == 'pull_request' &&
-          github.event.pull_request.state == 'open' &&
-          contains(github.event.pull_request.labels.*.name, 'skip')
-        )
+        ${{
+          (
+            github.event_name == 'pull_request' &&
+            github.event.pull_request.state == 'open' &&
+            contains(github.event.pull_request.labels.*.name, 'skip')
+          )
+        }}
     steps:
       - run: echo "'${SKIP}'"
       - run: echo "skip"
