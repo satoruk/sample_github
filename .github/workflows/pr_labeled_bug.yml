@@ -20,7 +20,7 @@ jobs:
         !contains(github.event.pull_request.labels.*.name, 'WIP')
       )
     steps:
-      - uses: ./.github/actions/hello/action.yml
+      - uses: actions/checkout@v2
       - run: echo "skip"
         if: |
           (
