@@ -26,6 +26,16 @@ jobs:
             contains(github.event.pull_request.labels.*.name, 'skip')
           )
       - run: echo "the skip label not exists"
+      - id: foo
+        uses: ./.github/actions/hello/
+        with:
+          who-to-greet: "Mona the Octocat"
+        if: |
+          (
+            !contains(github.event.pull_request.labels.*.name, 'skip')
+          )
+      - run: echo random-number ${{ steps.foo.outputs.random-number }}
+        shell: bash
         if: |
           (
             !contains(github.event.pull_request.labels.*.name, 'skip')
