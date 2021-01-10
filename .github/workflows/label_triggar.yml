@@ -2,8 +2,9 @@ name: label trigger
 
 on:
   pull_request:
-    - labeled
-    - unlabeled
+    types:
+      - labeled
+      - unlabeled
 
 env:
   LABELED_BUG: |-
