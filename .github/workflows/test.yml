@@ -15,7 +15,7 @@ jobs:
           script: |
             const pr_url = context.payload.pull_request.self
             const result = await github.request(pr_url)
-            console.log(result.labels)
+            console.log(result)
 
       - name: dump event
         run: |
