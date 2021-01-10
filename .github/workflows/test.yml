@@ -16,18 +16,20 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           result-encoding: json
           script: |
-            # console.log('-- pr --')
-            # console.log(context.payload.pull_request)
+            // console.log('-- pr --')
+            // console.log(context.payload.pull_request)
 
             const pr_url = context.payload.pull_request._links.self.href
             console.log('-- pr_url --')
             console.log(pr_url)
 
             const result = await github.request(pr_url)
-            # console.log('-- result --')
-            # console.log(result)
+            // console.log('-- result --')
+            // console.log(result)
 
-            const labels = result.labels.labels.map((v)=>v.name)
+            const labels = result.labels.map((v)=>v.name)
+            console.log('-- labels --')
+            console.log(labels)
             return labels
 
       - name: show current labels
