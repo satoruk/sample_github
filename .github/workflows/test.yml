@@ -16,7 +16,7 @@ jobs:
             console.log('-- pr --')
             console.log(context.payload.pull_request)
 
-            const pr_url = context.payload.pull_request.self
+            const pr_url = context.payload.pull_request._links.self
             console.log('-- pr_url --')
             console.log(pr_url)
 
