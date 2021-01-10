@@ -24,14 +24,10 @@ jobs:
             console.log(pr_url)
 
             const result = await github.request(pr_url)
-            console.log('-- result --')
-            console.log(result)
+            // console.log('-- result --')
+            // console.log(result)
 
-            console.log('-- result.labels --')
-            console.log(typeof result.labels)
-            console.log(result.labels)
-
-            const labels = result.labels.map((v)=>v.name)
+            const labels = result.data.labels.map((v)=>v.name)
             console.log('-- labels --')
             console.log(labels)
             return labels
@@ -39,7 +35,7 @@ jobs:
       - name: show current labels
         run: |
           cat <<EOD
-            ${{ toJSON(steps.current_labels.outputs) }}
+            ${{ toJSON(steps.current_labels.outputs.result) }}
           EOD
 
       - name: dump event
