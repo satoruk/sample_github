@@ -13,7 +13,6 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const pr_url = context.payload.pull_request.self
             console.log('-- pr --')
             console.log(context.payload.pull_request)
 
