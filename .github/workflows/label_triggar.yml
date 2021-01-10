@@ -1,0 +1,52 @@
+name: label trigger
+
+on:
+  pull_request:
+    - labeled
+    - unlabeled
+
+env:
+  LABELED_BUG: |-
+    ${{
+      github.event.pull_request.state == 'open' &&
+      github.event_name == 'pull_request' &&
+      github.event.action == 'labeled'
+      contains(github.event.pull_request.labels.*.name, 'bug')
+    }}
+  UNLABELED_SKIP: |-
+    ${{
+      github.event.pull_request.state == 'open' &&
+      github.event_name == 'pull_request' &&
+      github.event.action == 'unlabeled'
+      contains(github.event.pull_request.labels.*.name, 'skip')
+    }}
+  UNLABELED_WIP: |-
+    ${{
+      github.event.pull_request.state == 'open' &&
+      github.event_name == 'pull_request' &&
+      github.event.action == 'unlabeled'
+      contains(github.event.pull_request.labels.*.name, 'WIP')
+    }}
+
+jobs:
+  detect:
+    name: Detect Labels
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12.16.3
+      - name: dump event
+        run: |
+          mkdir -p artifacts
+          cat <<EOD > artifacts/event_${{ github.event_name }}_${{ github.event.action }}.json
+            ${{ toJSON(github.event) }}
+          EOD
+        if: always()
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: artifacts/
+        if: always()
