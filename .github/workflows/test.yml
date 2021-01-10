@@ -39,10 +39,10 @@ jobs:
           EOD
 
       - name: labeled bugs
-        if: contains(fromJSON(steps.current_labels.outputs.result).*.name, 'bug')
+        if: contains(fromJSON(steps.current_labels.outputs.result).*.name, 'bug') == true
         run: echo 'labeled bugs'
       - name: not labeled bugs
-        if: ! contains(fromJSON(steps.current_labels.outputs.result).*.name, 'bug')
+        if: contains(fromJSON(steps.current_labels.outputs.result).*.name, 'bug') != true
         run: echo 'not labeled bugs'
 
       - name: dump event
