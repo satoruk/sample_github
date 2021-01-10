@@ -10,21 +10,21 @@ env:
     ${{
       github.event.pull_request.state == 'open' &&
       github.event_name == 'pull_request' &&
-      github.event.action == 'labeled'
+      github.event.action == 'labeled' &&
       contains(github.event.pull_request.labels.*.name, 'bug')
     }}
   UNLABELED_SKIP: |-
     ${{
       github.event.pull_request.state == 'open' &&
       github.event_name == 'pull_request' &&
-      github.event.action == 'unlabeled'
+      github.event.action == 'unlabeled' &&
       contains(github.event.pull_request.labels.*.name, 'skip')
     }}
   UNLABELED_WIP: |-
     ${{
       github.event.pull_request.state == 'open' &&
       github.event_name == 'pull_request' &&
-      github.event.action == 'unlabeled'
+      github.event.action == 'unlabeled' &&
       contains(github.event.pull_request.labels.*.name, 'WIP')
     }}
 
