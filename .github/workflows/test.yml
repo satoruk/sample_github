@@ -4,13 +4,25 @@ on:
   pull_request:
 
 jobs:
-  test:
-    name: Test
+  current_pr:
+    name: Current PR
+    outputs:
+      labels: ${{ steps.current_labels.outputs.result }}
+      labeled_bug: |-
+        ${{
+          github.event_name == 'pull_request' &&
+          contains(fromJSON(steps.current_labels.outputs.result).*.name, 'bug')
+        }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      # PR 作成時は少し待ってラベルを取得
+      - name: waiting
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        run: sleep 1
       - name: get current labels
         id: current_labels
+        if: github.event_name == 'pull_request'
         uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -20,16 +32,21 @@ jobs:
             const result = await github.request(pr_url)
             return result.data.labels
       - name: show current labels
+        if: github.event_name == 'pull_request'
         run: |
           cat <<EOD
             ${{ steps.current_labels.outputs.result }}
           EOD
-      - name: labeled bugs
-        if: contains(fromJSON(steps.current_labels.outputs.result).*.name, 'bug') == true
-        run: echo 'labeled bugs'
-      - name: not labeled bugs
-        if: contains(fromJSON(steps.current_labels.outputs.result).*.name, 'bug') != true
-        run: echo 'not labeled bugs'
+
+  test:
+    name: Test
+    needs: prepere
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: log
+        run: |
+          echo 'labeled_bug: ${{ toJson(needs.current_pr.outputs.labeled_bug) }}'
 
       - name: dump event
         run: |
