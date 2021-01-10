@@ -51,7 +51,32 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(context.payload.number)
+            async function getLatestPRWorkflowRun(workflow_id, pr_number) {
+              const event = 'pull_request';
+              const result = await github.actions.listWorkflowRuns({
+                ...baseParams,
+                workflow_id,
+                event,
+              });
+              const { workflow_runs } = result.data;
+              for (const run of workflow_runs) {
+                if (run.pull_requests.map((v)=> v.number).includes(pr_number)) {
+                  return run;
+                }
+              }
+              throw new Error(`Not found workflow run: "${workflow_name}"`);
+            }
+
+            const pr_number = context.payload.number;
+            console.log({pr_number})
+            const run = await getLatestPRWorkflowRun('test.yml', pr_number);
+            console.log(run);
+            console.log({run_id: run.id});
+            const result = await github.actions.reRunWorkflow({
+              ...baseParams,
+              run_id: run.id,
+            })
+            console.log(result);
 
       - name: dump event
         run: |
