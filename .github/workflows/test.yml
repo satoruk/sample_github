@@ -9,4 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: sample
-        run: echo "Hello"
+        run: |
+          echo "Hello"
+          date
