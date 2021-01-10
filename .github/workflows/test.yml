@@ -9,10 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/github-script@v3
         with:
-          node-version: 12.16.3
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const pr_url = context.payload.pull_request.self
+            const result = await github.request(pr_url)
+            console.log(result.labels)
+
       - name: dump event
         run: |
           mkdir -p artifacts
