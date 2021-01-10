@@ -40,10 +40,19 @@ jobs:
           echo "LABELED_BUG   : '${LABELED_BUG}'"
           echo "UNLABELED_SKIP: '${UNLABELED_SKIP}'"
           echo "UNLABELED_WIP : '${UNLABELED_WIP}'"
+
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: 12.16.3
+
+      - name: dev
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            console.log(context.payload.number)
+
       - name: dump event
         run: |
           mkdir -p artifacts
