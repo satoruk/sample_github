@@ -27,6 +27,10 @@ jobs:
             // console.log('-- result --')
             // console.log(result)
 
+            console.log('-- result.labels --')
+            console.log(typeof result.labels)
+            console.log(result.labels)
+
             const labels = result.labels.map((v)=>v.name)
             console.log('-- labels --')
             console.log(labels)
