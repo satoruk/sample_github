@@ -51,6 +51,11 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            const baseParams = {
+              owner: 'satoruk',
+              repo: 'sample_github',
+            };
+
             async function getLatestPRWorkflowRun(workflow_id, pr_number) {
               const event = 'pull_request';
               const result = await github.actions.listWorkflowRuns({
