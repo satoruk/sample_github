@@ -1,5 +1,7 @@
 ### Issue templates
 
+Hello
+
 - [Configuring issue templates for your repository - GitHub Docs]
 
 Samples
