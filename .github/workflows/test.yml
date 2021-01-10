@@ -24,8 +24,8 @@ jobs:
             console.log(pr_url)
 
             const result = await github.request(pr_url)
-            // console.log('-- result --')
-            // console.log(result)
+            console.log('-- result --')
+            console.log(result)
 
             console.log('-- result.labels --')
             console.log(typeof result.labels)
