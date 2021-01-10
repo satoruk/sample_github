@@ -9,24 +9,24 @@ on:
 env:
   LABELED_BUG: |-
     ${{
-      github.event.pull_request.state == 'open' &&
-      github.event_name == 'pull_request' &&
       github.event.action == 'labeled' &&
-      contains(github.event.pull_request.labels.*.name, 'bug')
+      github.event.label.name == 'bug' &&
+      github.event.pull_request.state == 'open' &&
+      github.event_name == 'pull_request'
     }}
   UNLABELED_SKIP: |-
     ${{
-      github.event.pull_request.state == 'open' &&
-      github.event_name == 'pull_request' &&
       github.event.action == 'unlabeled' &&
-      contains(github.event.pull_request.labels.*.name, 'skip')
+      github.event.label.name == 'skip' &&
+      github.event.pull_request.state == 'open' &&
+      github.event_name == 'pull_request'
     }}
   UNLABELED_WIP: |-
     ${{
-      github.event.pull_request.state == 'open' &&
-      github.event_name == 'pull_request' &&
       github.event.action == 'unlabeled' &&
-      contains(github.event.pull_request.labels.*.name, 'WIP')
+      github.event.label.name == 'WIP' &&
+      github.event.pull_request.state == 'open' &&
+      github.event_name == 'pull_request'
     }}
 
 jobs:
@@ -35,6 +35,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: log
+        run: |
+          echo "LABELED_BUG   : '${LABELED_BUG}'"
+          echo "UNLABELED_SKIP: '${UNLABELED_SKIP}'"
+          echo "UNLABELED_WIP : '${UNLABELED_WIP}'"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
