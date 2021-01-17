@@ -1,0 +1,15 @@
+name: Schedule
+
+on:
+  schedule:
+    - cron: "30 * * * *"
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: sample
+        run: |-
+          echo "Hello"
+          date
