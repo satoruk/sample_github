@@ -1,15 +1,18 @@
 name: Schedule
 
-on:
+on: 
   schedule:
-    - cron: '*/10 * * * *'
+  - cron: '*/5 * * * *'
 
 jobs:
-  test:
-    name: Test
+  job1:
+    name: Debug
     runs-on: ubuntu-latest
+
     steps:
-      - name: sample
-        run: |-
-          echo "Hello"
-          date
+    - name: Git checkout
+      uses: actions/checkout@v2
+      with: { ref: debug }
+    - name: List files
+      run: ls
+
