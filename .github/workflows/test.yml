@@ -14,6 +14,8 @@ jobs:
       - name: sample
         run: |-
           echo "Hello"
+          echo "github.workflow:${{ github.workflow }}"
+          echo "GITHUB_WORKFLOW:${GITHUB_WORKFLOW}"
           echo "GITHUB_REPOSITORY:${GITHUB_REPOSITORY}"
           echo "GITHUB_RUN_ID:${GITHUB_RUN_ID}"
           echo "GITHUB_RUN_NUMBER:${GITHUB_RUN_NUMBER}"
@@ -24,6 +26,10 @@ jobs:
           date
           sleep 10
           date
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: check other running
         uses: actions/github-script@v3
         with:
