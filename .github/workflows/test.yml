@@ -20,3 +20,28 @@ jobs:
           date
           sleep 20
           date
+      - name: check other running
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            async function existsActiveWorkflowRun(workflow_id) {
+              // current workflow run
+              const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+              const run_id = parseInt(process.env.GITHUB_RUN_ID, 10);
+              const run_number = parseInt(process.env.GITHUB_RUN_NUMBER, 10);
+              const result = await github.actions.listWorkflowRuns({ owner, repo, workflow_id });
+              const { workflow_runs } = result.data;
+              for (const run of workflow_runs) {
+                if (run.id == run_id && run.run_number == run_number) {
+                  continue;
+                }
+                if (run.status == 'in_progress') {
+                  return true;
+                }
+              }
+              return false;
+            }
+
+            const result = await existsActiveWorkflowRun('test.yml');
+            console.log(`result:${result}`);
