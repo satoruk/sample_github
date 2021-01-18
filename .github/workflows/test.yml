@@ -2,6 +2,7 @@ name: Test
 
 on:
   pull_request:
+  push:
 
 jobs:
   test:
@@ -11,4 +12,6 @@ jobs:
       - name: sample
         run: |-
           echo "Hello"
+          date
+          sleep 20
           date
