@@ -12,6 +12,9 @@ jobs:
       - name: sample
         run: |-
           echo "Hello"
+          echo "GITHUB_REPOSITORY:${GITHUB_REPOSITORY}"
+          echo "GITHUB_RUN_ID:${GITHUB_RUN_ID}"
+          echo "GITHUB_RUN_NUMBER:${GITHUB_RUN_NUMBER}"
           date
           sleep 20
           date
