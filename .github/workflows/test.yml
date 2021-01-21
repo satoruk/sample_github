@@ -58,6 +58,7 @@ jobs:
             console.log(`result:${result}`);
             return result;
 
+      - name: show log
         run: |
           echo '-- steps.running.outputs -------------------'
           cat <<EOD
