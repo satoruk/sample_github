@@ -31,6 +31,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: check other running
+        id: running
         uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -55,3 +56,10 @@ jobs:
 
             const result = await existsActiveWorkflowRun('test.yml');
             console.log(`result:${result}`);
+            return result;
+
+        run: |
+          echo '-- steps.running.outputs -------------------'
+          cat <<EOD
+            ${{ toJSON(fromJSON(steps.running.outputs)) }}
+          EOD
