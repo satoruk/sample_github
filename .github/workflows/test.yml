@@ -62,5 +62,5 @@ jobs:
         run: |
           echo '-- steps.running.outputs -------------------'
           cat <<EOD
-            ${{ toJSON(fromJSON(steps.running.outputs)) }}
+            ${{ toJSON(steps.running.outputs) }}
           EOD
